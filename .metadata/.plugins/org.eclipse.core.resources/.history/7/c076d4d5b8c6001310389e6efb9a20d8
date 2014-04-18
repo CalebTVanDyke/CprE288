@@ -1,0 +1,29 @@
+package FinalProj;
+
+
+public class SpaceObject  {
+	
+	protected int size;
+	protected int coords[];
+
+	public SpaceObject(int x, int y) {
+				
+		coords = new int[2];
+		coords[0] = x;
+		coords[1] = y;
+		size = 20;
+	}
+	
+	public void moveLeft(){
+		coords[0]--;
+	}
+	public void moveRight(){
+		coords[0]++;
+	}
+	public void moveUp(){
+		coords[1]--;
+	}
+	public void moveDown(){
+		coords[1]++;
+	}
+}

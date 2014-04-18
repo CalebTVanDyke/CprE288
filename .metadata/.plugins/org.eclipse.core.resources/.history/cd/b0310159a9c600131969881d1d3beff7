@@ -1,0 +1,14 @@
+package FinalProj;
+
+import javax.swing.JPanel;
+
+public class Robot extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public Robot() {
+
+	}
+
+}

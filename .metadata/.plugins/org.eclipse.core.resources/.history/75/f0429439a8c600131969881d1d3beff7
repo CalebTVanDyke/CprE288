@@ -1,0 +1,9 @@
+package FinalProj;
+
+public class Robot extends SpaceObject {
+
+	public Robot(int x, int y) {
+		super(x, y, size);
+		// TODO Auto-generated constructor stub
+	}
+}

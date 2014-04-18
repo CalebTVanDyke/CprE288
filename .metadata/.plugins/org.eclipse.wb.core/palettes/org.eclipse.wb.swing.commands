@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+	<addComponent
+		id="custom_1397790702690"
+		name="SpaceObject"
+		visible="true"
+		class="FinalProj.SpaceObject"
+		category="org.eclipse.wb.swing.components"/>
+	<addComponent
+		id="custom_1397791278503"
+		name="Robot"
+		visible="true"
+		class="FinalProj.Robot"
+		category="org.eclipse.wb.swing.components"/>
+	<removeEntry
+		id="custom_1397790702690"/>
+</commands>

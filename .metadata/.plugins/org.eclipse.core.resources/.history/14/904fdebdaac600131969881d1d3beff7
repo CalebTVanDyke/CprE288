@@ -1,0 +1,14 @@
+package FinalProj;
+
+import javax.swing.JPanel;
+
+public class LargePoll extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public LargePoll() {
+
+	}
+
+}

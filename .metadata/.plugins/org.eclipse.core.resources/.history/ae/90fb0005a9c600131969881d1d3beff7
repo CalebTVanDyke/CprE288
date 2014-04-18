@@ -1,0 +1,39 @@
+package FinalProj;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class Robot extends SpaceObject {
+
+	public Robot(int x, int y) {
+		super(x, y, 15);
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.fillOval(coords[0], coords[1], size, size);
+	}
+	
+	public class MoveRobot extends KeyAdapter{
+		@Override
+		public void keyPressed(KeyEvent e) {
+			super.keyPressed(e);
+			if(e.getKeyCode() == KeyEvent.VK_UP){
+				System.out.println("MOVING UP");
+			}
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){
+				System.out.println("MOVING DOWN");
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+				System.out.println("MOVING RIGHT");
+			}
+			if(e.getKeyCode() == KeyEvent.VK_LEFT){
+				System.out.println("MOVING LEFT");
+			}
+		}
+	}
+}

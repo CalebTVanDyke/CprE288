@@ -1,0 +1,43 @@
+package FinalProj;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
+public class SpaceObject  extends JPanel  {
+	
+	protected int size;
+	protected int coords[];
+
+	public SpaceObject(int x, int y) {
+		
+		setBounds(x, y, size, size);
+		
+		coords = new int[2];
+		coords[0] = x;
+		coords[1] = y;
+		size = 20;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLUE);
+		g2d.fillOval(coords[0], coords[1], size, size);
+	}
+	public void moveLeft(){
+		coords[0]--;
+	}
+	public void moveRight(){
+		coords[0]++;
+	}
+	public void moveUp(){
+		coords[1]--;
+	}
+	public void moveDown(){
+		coords[1]++;
+	}
+}

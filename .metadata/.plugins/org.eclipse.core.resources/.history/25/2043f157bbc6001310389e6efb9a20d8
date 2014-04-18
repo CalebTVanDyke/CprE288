@@ -1,0 +1,13 @@
+package FinalProj;
+
+public class Robot extends SpaceObject {
+
+	private int degrees;
+	
+	public Robot(int x, int y, int size) {
+		super(x, y, size);
+		degrees = 0;
+		
+	}
+
+}

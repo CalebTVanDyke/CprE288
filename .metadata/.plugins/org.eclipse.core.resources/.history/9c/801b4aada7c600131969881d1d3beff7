@@ -1,0 +1,30 @@
+package FinalProj;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
+public class SpaceObject extends JPanel {
+
+	
+	private int size;
+	private int coords[];
+	/**
+	 * Create the panel.
+	 */
+	public SpaceObject(int x, int y, int size) {
+		this.size = size;
+		coords = new int[2];
+		coords[0] = x;
+		coords[1] = y;
+		setBounds(x, y, size, size);
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g3d = (Graphics2D) g;
+	}
+
+}

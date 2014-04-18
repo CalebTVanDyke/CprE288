@@ -1,0 +1,16 @@
+package FinalProj;
+
+import javax.swing.JPanel;
+
+public class SpaceObject extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public SpaceObject(int x, int y) {
+		
+		
+
+	}
+
+}

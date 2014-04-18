@@ -1,0 +1,5 @@
+package FinalProj;
+
+public class Robot extends SpaceObject {
+
+}
