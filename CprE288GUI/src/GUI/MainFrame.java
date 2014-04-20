@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Arc2D;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -23,34 +24,29 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import java.awt.event.MouseAdapter;
 
 public class MainFrame extends JFrame {
 	
 	/**
-	 * Frame Dimensions
+	 * Constants
 	 */
 	public static final int WIDTH = 1350;
 	public static final int HEIGHT = 750;
-	
-	/**
-	 * Poll constants
-	 */
 	private final int LARGE_POLL_SIZE = 15;
 	private final int SMALL_POLL_SIZE = 10;
 	private final int GROUD_POLL_SIZE = 15;
 	private final Color LARGE_POLL_COLOR = Color.RED;
 	private final Color SMALL_POLL_COLOR = Color.GREEN;
 	private final Color GROUD_POLL_COLOR = Color.ORANGE;
-	
-	
+	private final int ROBOT_SIZE = 200;
 
 	private JPanel contentPane;
 	private Robot robot;
-	private ArrayList<SpaceObject> polls;
-	private ArrayList<Wall> walls;
  	private JTextField textField;
 	private JButton btnSubmit;
+	private ArrayList<Scan> scans;
 
 	/**
 	 * Launch the application.
@@ -72,11 +68,10 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		polls = new ArrayList<SpaceObject>();
-		walls = new ArrayList<Wall>();
+		scans = new ArrayList<Scan>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WIDTH, HEIGHT);
+		setBounds(0, 0, WIDTH, HEIGHT);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -107,7 +102,6 @@ public class MainFrame extends JFrame {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				addWall();
 				repaint();
 			}
 		});
@@ -116,7 +110,7 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		robot = new Robot(getWidth()/2, getHeight()/2, 20);
+		robot = new Robot(getWidth()/2 - ROBOT_SIZE/2, getHeight() - ROBOT_SIZE/2, ROBOT_SIZE);
 	}
 	
 	@Override
@@ -124,16 +118,12 @@ public class MainFrame extends JFrame {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(robot.getColor());
-		g2d.fillOval(robot.getX(), robot.getY(), robot.getSize(), robot.getSize());
-		g2d.setColor(Color.YELLOW);
-		g.fillArc(robot.getX(), robot.getY(), robot.getSize(), robot.getSize(), 45 - robot.getDegrees(), 90);
-		for(SpaceObject obj : polls){
-			g2d.setColor(obj.getColor());
-			g2d.fillOval(obj.getX(), obj.getY(), obj.getSize(), obj.getSize());
-		}
-		g2d.setColor(Color.BLACK);
-		for(Wall obj : walls){
-			g2d.drawLine(obj.getCoords1()[0], obj.getCoords1()[1], obj.getCoords2()[0], obj.getCoords2()[1]);
+		g.fillArc(robot.getX(), robot.getY(), robot.getSize(), robot.getSize(), 0, 180);
+		if(scans.size() != 0){
+			for(SpaceObject o : scans.get(scans.size() - 1).getDetectedObjects()){
+				g2d.setColor(LARGE_POLL_COLOR);
+				g.fillRect(o.getX(), o.getY(), o.getSize(), o.getSize());
+			}
 		}
 	}
 	private void performCommand(String text) {
@@ -144,30 +134,24 @@ public class MainFrame extends JFrame {
 			if(command.equals("move")){
 				if(scan.hasNextInt()){
 					int distance = scan.nextInt();
-					robot.move(distance);
 				}
 			}
 			else if(command.equals("rotate")){
 				if(scan.hasNextInt()){
 					int degrees = scan.nextInt();
-					robot.rotate(degrees);
 				}
+			}
+			else if(command.equals("scan")){
+				Random rand = new Random();
+				int randX = rand.nextInt(WIDTH);
+				int randY = rand.nextInt(HEIGHT);
+				SpaceObject obj = new SpaceObject(randX, randY, LARGE_POLL_SIZE, LARGE_POLL_COLOR);
+				Scan currScan = new Scan();
+				currScan.addObject(obj);
+				scans.add(currScan);
 			}
 		}
 		scan.close();
-		repaint();
-		
-	}
-	public void addLargePole(int x, int y){
-		polls.add(new SpaceObject(x, y, LARGE_POLL_SIZE, LARGE_POLL_COLOR));
-	}
-	public void addSmallPole(int x, int y){
-		polls.add(new SpaceObject(x, y, SMALL_POLL_SIZE, SMALL_POLL_COLOR));
-	}
-	public void addGroundPole(int x, int y){
-		polls.add(new SpaceObject(x, y, GROUD_POLL_SIZE, GROUD_POLL_COLOR));
-	}
-	public void addWall(){
-		walls.add(new Wall(robot.getX(), robot.getY(), robot.getDegrees()));
+		repaint();	
 	}
 }
