@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -26,6 +28,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.awt.event.MouseAdapter;
+
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 
 public class MainFrame extends JFrame {
 	
@@ -47,6 +56,10 @@ public class MainFrame extends JFrame {
  	private JTextField textField;
 	private JButton btnSubmit;
 	private ArrayList<Scan> scans;
+	private JTextField textField1;
+	private JButton btnLoadScan;
+	private JComboBox comboBox;
+	private Scan currScan;
 
 	/**
 	 * Launch the application.
@@ -87,7 +100,7 @@ public class MainFrame extends JFrame {
 				
 			}
 		});
-		
+
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			
@@ -98,6 +111,26 @@ public class MainFrame extends JFrame {
 			}
 		});
 		menuBar.add(btnSubmit);
+		
+		textField1 = new JTextField();
+		menuBar.add(textField1);
+		textField1.setEditable(false);
+		textField1.setText("Alerts from robot will be printed here");
+		
+		comboBox = new JComboBox();
+		menuBar.add(comboBox);
+		
+		btnLoadScan = new JButton("Load Scan");
+		btnLoadScan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				currScan = (Scan)comboBox.getSelectedItem();
+				repaint();
+				
+			}
+		});
+		menuBar.add(btnLoadScan);
 		contentPane = new JPanel();
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
@@ -120,7 +153,7 @@ public class MainFrame extends JFrame {
 		g2d.setColor(robot.getColor());
 		g.fillArc(robot.getX(), robot.getY(), robot.getSize(), robot.getSize(), 0, 180);
 		if(scans.size() != 0){
-			for(SpaceObject o : scans.get(scans.size() - 1).getDetectedObjects()){
+			for(SpaceObject o : currScan.getDetectedObjects()){
 				g2d.setColor(LARGE_POLL_COLOR);
 				g.fillRect(o.getX(), o.getY(), o.getSize(), o.getSize());
 			}
@@ -146,8 +179,10 @@ public class MainFrame extends JFrame {
 				int randX = rand.nextInt(WIDTH);
 				int randY = rand.nextInt(HEIGHT);
 				SpaceObject obj = new SpaceObject(randX, randY, LARGE_POLL_SIZE, LARGE_POLL_COLOR);
-				Scan currScan = new Scan();
+				currScan = new Scan();
 				currScan.addObject(obj);
+				comboBox.addItem(currScan);
+				comboBox.setSelectedItem(currScan);
 				scans.add(currScan);
 			}
 		}
